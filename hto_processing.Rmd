@@ -1,0 +1,212 @@
+---
+title: "Cell Hashing HTO count processing"
+author:
+- Lucas Graybuck
+- Richard Green
+date: "`r format(Sys.time(), '%Y-%m-%d')`"
+output:
+  html_document:
+    df_print: paged
+---
+
+Load required libraries
+```{r Load Libraries}
+start_time <- Sys.time()
+
+quiet_library <- function(...) {
+  suppressPackageStartupMessages(library(...))
+}
+quiet_library(HTOparser)
+quiet_library(ggplot2)
+quiet_library(cowplot)
+```
+
+Declaring start
+```{r Declare Start}
+stm("Starting HTO count processing")
+```
+
+Argument parsing
+```{r Parse Arguments}
+args <- commandArgs(trailingOnly = TRUE)
+
+if(length(args) > 0) {
+  in_type <- match.arg(args[1], choices = c("awk","cite","test"))
+} else {
+  in_type <- "test"
+}
+
+if(in_type == "test") {
+  in_file <- system.file("testdata/CITE-seq_count_matrix.csv.gz", package = "HTOparser")
+  in_key  <- system.file("testdata/CITE-seq_count_tags.csv", package = "HTOparser")
+  out_mat <- tempfile(fileext = ".csv")
+  out_tbl <- tempfile(fileext = ".csv")
+} else {
+  in_file <- args[2]
+  in_key  <- args[3]
+  out_mat <- args[4]
+  out_tbl <- args[5]
+}
+
+stm(paste0("IN  HTO count type:  ", in_type))
+stm(paste0("IN  HTO count file:  ", in_file))
+stm(paste0("IN  HTO barcode key: ", in_key))
+stm(paste0("OUT Count matrix:    ", out_mat))
+stm(paste0("OUT Category table:  ", out_tbl))
+```
+
+Load HTO reference
+```{r Load HTO Reference, echo = FALSE, results = 'asis'}
+hto_ref <- totalseq_a_human()
+knitr::kable(hto_ref, caption = "Reference TotalSeq HTO Sequences")
+```
+
+
+Read input table/matrix and barcode key
+```{r Read Input Files}
+in_hto_table <- fread(in_file)
+in_hto_key   <- fread(in_key, header = FALSE, col.names = c("hto_barcode", "hto_name"))
+
+if(in_type == "awk") {
+  stm("Filtering input HTO table for valid barcodes")
+  in_hto_table <- fuzzy_filtering(in_hto_table,
+                                  match_column = "hto_barcode",
+                                  match_values = hto_ref$hto_barcode,
+                                  max_distance = 1)
+  
+  stm("Converting HTO table to matrix")
+  in_hto_mat <- barcode_table_to_matrix(in_hto_table)
+  
+} else {
+  stm("Formatting HTO matrix and filtering for valid barcodes")
+  in_hto_mat <- as.matrix(in_hto_table[,-1])
+  in_hto_mat <- as(in_hto_mat, "dgCMatrix")
+  rownames(in_hto_mat) <- in_hto_key$hto_barcode[match(in_hto_table[[1]], in_hto_key$hto_name)]
+}
+in_hto_mat <- add_missing_hto_rows(in_hto_mat,
+                                   valid_htos = hto_ref$hto_barcode)
+```
+
+Call positive and negative HTOs
+```{r Convert Matrix to Binary Calls}
+stm("Binarizing HTO counts to call positive and negative hashes")
+binary_results <- binarize_hash_matrix(in_hto_mat,
+                                       valid_htos = hto_ref$hto_barcode,
+                                       min_cut = 10,
+                                       cutoff_vals = NULL)
+```
+
+```{r Print Hash Count Summary, echo = FALSE, results = 'asis'}
+rownames(binary_results$bsummary) <- NULL
+knitr::kable(binary_results$bsummary, caption = "Hash Count Summary")
+```
+
+Generate plots for distributions of each hash
+```{r Generate Distribution Plots}
+stm("Generating plots for report")
+plot_list <- lapply(
+  1:nrow(hto_ref),
+  function(x) {
+    barcode <- hto_ref$hto_barcode[x]
+    vals <- in_hto_mat[barcode,]
+    
+    n_vals_below_min_cut <- sum(vals <= 10)
+    vals_above_min_cut <- vals[vals > 10]
+    
+    if(length(vals_above_min_cut) > 0) {
+      cutoff <- binary_results$bsummary$cutoff[binary_results$bsummary$hto_barcode == barcode]
+      
+      val_df <- data.frame(vals = log10(vals_above_min_cut))
+      cut_df <- data.frame(cutoff = log10(cutoff))
+      
+      ggplot() +
+        geom_histogram(data = val_df,
+                     aes(x = vals),
+                     fill = "darkgreen",
+                     binwidth = 0.05) +
+        geom_vline(data = cut_df,
+                   aes(xintercept = cutoff),
+                   size = 1,
+                   color = "dodgerblue") +
+        scale_x_continuous("log10(HTO Count)", 
+                           limits = c(0,5)) +
+        scale_fill_identity() +
+        scale_color_identity() +
+        ggtitle(barcode) +
+        theme_bw(base_size = 8)
+    } else {
+      text_df <- data.frame(x = 2.5,
+                            y = 0.5,
+                            label = "Hash not detected")
+      
+      ggplot() +
+        geom_text(data = text_df,
+                  aes(x = x,
+                      y = y,
+                      label = label)) +
+        scale_x_continuous("log10(HTO Count)", 
+                           limits = c(0,5)) +
+        scale_y_continuous("count",
+                           limits = c(0,1)) +
+        ggtitle(barcode) +
+        theme_bw(base_size = 8)
+    }
+  }
+)
+```
+
+Output density plots
+```{r Display Plots, fig.height = 12, fig.width = 12}
+suppressWarnings(
+  plot_grid(plotlist = plot_list,
+            nrow = ceiling(length(plot_list) / 2),
+            ncol = 2)
+)
+```
+
+Convert hashes to category calls
+```{r Convert Binary Matrix to Categories}
+stm("Converting binary results to categories")
+category_results <- categorize_binary_hash_matrix(binary_results$bmat)
+```
+```{r Display Category Summary, echo = FALSE, results = 'asis'}
+rownames(category_results$hash_summary) <- NULL
+knitr::kable(category_results$hash_summary, caption = "Hash Category Summary")
+```
+
+Write count matrix after some wrangling for data.table
+```{r Write Count Matrix}
+stm(paste0("Writing count matrix to ", out_mat))
+out_hto_mat <- as(in_hto_mat, "matrix")
+out_hto_mat <- as.data.table(out_hto_mat)
+out_hto_mat <- cbind(data.table(hto_barcode = rownames(in_hto_mat)),
+                     out_hto_mat)
+fwrite(out_hto_mat,
+       file = out_mat)
+```
+
+Write category table
+```{r Write Category Table}
+stm(paste0("Writing category table to ", out_tbl))
+
+fwrite(category_results$hash_category_table,
+       file = out_tbl)
+```
+
+Session Info:
+```{r Report Session Info}
+sessionInfo()
+```
+
+Total time ellapsed
+```{r}
+end_time <- Sys.time()
+diff_time <- end_time - start_time
+time_message <- paste0("Ellapsed Time: ", 
+                       round(diff_time, 3),
+                       " ", units(diff_time))
+print(time_message)
+stm(time_message)
+stm("HTO count processing complete.")
+```
+
