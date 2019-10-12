@@ -69,14 +69,15 @@ in_hto_key   <- fread(in_key, header = FALSE, col.names = c("hto_barcode", "hto_
 
 if(in_type == "awk") {
   stm("Filtering input HTO table for valid barcodes")
+  names(in_hto_table) <- c("count","cell_barcode","hto_barcode")
   in_hto_table <- fuzzy_filtering(in_hto_table,
                                   match_column = "hto_barcode",
                                   match_values = hto_ref$hto_barcode,
                                   max_distance = 1)
   
   stm("Converting HTO table to matrix")
-  in_hto_mat <- barcode_table_to_matrix(in_hto_table)
-  
+  in_hto_mat <- barcode_table_to_matrix(in_hto_table,
+                                        valid_htos = hto_ref$hto_barcode)
 } else {
   stm("Formatting HTO matrix and filtering for valid barcodes")
   in_hto_mat <- as.matrix(in_hto_table[,-1])
