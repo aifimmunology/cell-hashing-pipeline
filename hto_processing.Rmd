@@ -32,12 +32,19 @@ Argument parsing
 args <- commandArgs(trailingOnly = TRUE)
 
 if(length(args) > 0) {
-  in_type <- match.arg(args[1], choices = c("awk","cite","test"))
+  in_type <- match.arg(args[1], choices = c("awk","cite","test_awk","test_cite"))
 } else {
-  in_type <- "test"
+  in_type <- "test_cite"
 }
 
-if(in_type == "test") {
+if(in_type == "test_awk") {
+  in_type <- "awk"
+  in_file <- system.file("testdata/awk_pipeline_counts_table.csv.gz", package = "HTOparser")
+  in_key  <- system.file("testdata/CITE-seq_count_tags.csv", package = "HTOparser")
+  out_mat <- tempfile(fileext = ".csv")
+  out_tbl <- tempfile(fileext = ".csv")
+} else if(in_type == "test_cite") {
+  in_type <- "cite"
   in_file <- system.file("testdata/CITE-seq_count_matrix.csv.gz", package = "HTOparser")
   in_key  <- system.file("testdata/CITE-seq_count_tags.csv", package = "HTOparser")
   out_mat <- tempfile(fileext = ".csv")
