@@ -8,6 +8,12 @@ output:
   html_document:
     df_print: paged
     self_contained: true
+params:
+  in_type: "no_params"
+  in_file: system.file("testdata/awk_pipeline_counts_table.csv.gz", package = "HTOparser")
+  in_key: system.file("testdata/CITE-seq_count_tags.csv", package = "HTOparser")
+  out_mat: tempfile(fileext = ".csv")
+  out_tbl: tempfile(fileext = ".csv")
 ---
 
 Load required libraries
@@ -29,12 +35,10 @@ stm("Starting HTO count processing")
 
 Argument parsing
 ```{r Parse Arguments}
-args <- commandArgs(trailingOnly = TRUE)
-
-if(length(args) > 0) {
-  in_type <- match.arg(args[1], choices = c("awk","cite","test_awk","test_cite"))
-} else {
+if(params$in_type == "no_params") {
   in_type <- "test_cite"
+} else {
+  in_type <- match.arg(params$in_type, choices = c("awk","cite","test_awk","test_cite"))
 }
 
 if(in_type == "test_awk") {
@@ -50,10 +54,10 @@ if(in_type == "test_awk") {
   out_mat <- tempfile(fileext = ".csv")
   out_tbl <- tempfile(fileext = ".csv")
 } else {
-  in_file <- args[2]
-  in_key  <- args[3]
-  out_mat <- args[4]
-  out_tbl <- args[5]
+  in_file <- params$in_file
+  in_key  <- params$in_key
+  out_mat <- params$out_mat
+  out_tbl <- params$out_tbl
 }
 
 stm(paste0("IN  HTO count type:  ", in_type))
