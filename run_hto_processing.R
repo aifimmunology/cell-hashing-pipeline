@@ -7,5 +7,6 @@ rmarkdown::render(
                 in_file = args[2],
                 in_key  = args[3],
                 out_mat = args[4],
-                out_tbl = args[5])
+                out_tbl = args[5]),
+  quiet = TRUE
 )
