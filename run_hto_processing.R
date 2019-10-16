@@ -3,7 +3,7 @@ library(optparse)
 option_list <- list(
   make_option(opt_str = c("-t","--in_type"),
               type = "character",
-                default = NULL,
+              default = NULL,
               help = "Type of HTO results. One of: cite, awk, test_cite, or test_awk",
               metavar = "character"),
   make_option(opt_str = c("-i","--in_file"),
@@ -35,11 +35,11 @@ option_list <- list(
 
 opt_parser <- OptionParser(option_list = option_list)
 
-if(is.null(opt$in_type)) {
+args <- parse_args(opt_parser)
+
+if(is.null(args$in_type)) {
   print_help(opt_parser)
 }
-
-args <- parse_args(opt_parser)
 
 rmarkdown::render(
   input = "hto_processing.Rmd",
