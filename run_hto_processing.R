@@ -3,7 +3,7 @@ library(optparse)
 option_list <- list(
   make_option(opt_str = c("-t","--in_type"),
               type = "character",
-              default = NULL,
+                default = NULL,
               help = "Type of HTO results. One of: cite, awk, test_cite, or test_awk",
               metavar = "character"),
   make_option(opt_str = c("-i","--in_file"),
@@ -21,7 +21,7 @@ option_list <- list(
               default = NULL,
               help = "Output HTO count matrix file",
               metavar = "character"),
-  make_option(opt_str = c("-t","--out_tbl"),
+  make_option(opt_str = c("-c","--out_cat"),
               type = "character",
               default = NULL,
               help = "Output HTO category table file",
@@ -33,7 +33,13 @@ option_list <- list(
               metavar = "character")
 )
 
-args <- parse_args(OptionParser(option_list = option_list))
+opt_parser <- OptionParser(option_list = option_list)
+
+if(is.null(opt$in_type)) {
+  print_help(opt_parser)
+}
+
+args <- parse_args(opt_parser)
 
 rmarkdown::render(
   input = "hto_processing.Rmd",
@@ -41,7 +47,7 @@ rmarkdown::render(
                 in_file = args$in_file,
                 in_key  = args$in_key,
                 out_mat = args$out_mat,
-                out_tbl = args$out_tbl),
+                out_tbl = args$out_cat),
   output_file = args$out_html,
   quiet = TRUE
 )
