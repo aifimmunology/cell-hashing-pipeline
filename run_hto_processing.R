@@ -39,10 +39,11 @@ args <- parse_args(opt_parser)
 
 if(is.null(args$in_type)) {
   print_help(opt_parser)
+  stop("No parameters supplied.")
 }
 
 rmarkdown::render(
-  input = "hto_processing.Rmd",
+  input = system.file("rmarkdown/hto_processing.Rmd", package = "HTOparser"),
   params = list(in_type = args$in_type,
                 in_file = args$in_file,
                 in_key  = args$in_key,
