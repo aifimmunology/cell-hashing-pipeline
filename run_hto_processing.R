@@ -50,5 +50,6 @@ rmarkdown::render(
                 out_mat = args$out_mat,
                 out_tbl = args$out_cat),
   output_file = args$out_html,
-  quiet = TRUE
+  quiet = TRUE,
+  knit_root_dir = "./"
 )
