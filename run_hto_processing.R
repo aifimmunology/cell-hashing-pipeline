@@ -48,8 +48,8 @@ rmarkdown::render(
                 in_file = args$in_file,
                 in_key  = args$in_key,
                 out_mat = args$out_mat,
-                out_tbl = args$out_cat),
+                out_tbl = args$out_cat,
+                knit_dir = getwd()),
   output_file = args$out_html,
-  quiet = TRUE,
-  knit_root_dir = "./"
+  quiet = TRUE
 )
