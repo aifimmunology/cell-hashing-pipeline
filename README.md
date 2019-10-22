@@ -2,6 +2,28 @@
 
 Scripts for processing cell hashing/Hash Tag Oligo (HTO) data
 
+### Dependencies
+
+This repository requires that `pandoc` libraries are installed:
+```
+sudo apt-get install pandoc
+```
+
+It also depends on the `HTOparser`, `rmarkdown`, and `optparse` libraries.
+
+`rmarkdown` and `optparse` are available from CRAN, and can be installed in R using:
+```
+install.packages("rmarkdown")
+install.packages("optparse")
+```
+
+`HTOparser` is one of our own packages found in the aifimmunology Github repositories. Because it is a private repository, you may need to provided a [Github Personal Access Token](https://github.com/settings/tokens) for installation:
+
+```
+Sys.setenv(GITHUB_PAT = "[your_PAT_here]")
+devtools::install_github("aifimmunology/HTOparser")
+```
+
 ### Processing HTO FASTQ files
 
 `cell-hashing-pipeline` is compatible with results from the Python tool [`CITE-seq-Count`](https://github.com/Hoohm/CITE-seq-Count) and with a simple, `awk/sort/uniq` driven processing script.
