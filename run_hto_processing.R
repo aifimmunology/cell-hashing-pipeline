@@ -42,14 +42,18 @@ if(is.null(args$in_type)) {
   stop("No parameters supplied.")
 }
 
+file.copy(system.file("rmarkdown/hto_processing.Rmd", package = "HTOparser"),
+          "./hto_processing.Rmd")
+
 rmarkdown::render(
-  input = system.file("rmarkdown/hto_processing.Rmd", package = "HTOparser"),
+  input = "./hto_processing.Rmd",
   params = list(in_type = args$in_type,
                 in_file = args$in_file,
                 in_key  = args$in_key,
                 out_mat = args$out_mat,
-                out_tbl = args$out_cat,
-                knit_dir = getwd()),
+                out_tbl = args$out_cat),
   output_file = args$out_html,
   quiet = TRUE
 )
+
+file.remove("./hto_processing.Rmd")
