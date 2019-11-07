@@ -130,6 +130,15 @@ Rscript --vanilla \
   -o /shared/lucasg/pipeline_cellhashing_tests/output/split_h5/pool16_split_summary_report.html
 ```
 
+### Tests
+
+A dry run can be performed using test data stored in the `H5weaver` package by excluding parameters other than `-o`:
+```
+Rscript --vanilla \
+  cell-hashing-pipeline/run_h5_split_by_hash.R \
+  -o /shared/lucasg/pipeline_cellhashing_tests/output/split_h5/test_summary_report.html
+```
+
 ## Merging cellranger .h5 files by hash
 
 After splitting the .h5 data for each well by hash above, samples from each hash can be merged across wells, again using functions in the [`H5weaver`](https://github.com/aifimmunology/H5weaver) R package, installed with:
@@ -154,3 +163,13 @@ Rscript --vanilla \
   -d /shared/lucasg/pipeline_cellhashing_tests/output/merged_h5/
   -o /shared/lucasg/pipeline_cellhashing_tests/output/merged_h5/hto_merge_summary_report.html
 ```
+
+### Tests
+
+A dry run can be performed using test data stored in the `H5weaver` package by excluding parameters other than `-o`:
+```
+Rscript --vanilla \
+  cell-hashing-pipeline/run_h5_merge_by_hash.R \
+  -o /shared/lucasg/pipeline_cellhashing_tests/output/merge_h5/test_summary_report.html
+```
+
