@@ -125,8 +125,8 @@ Rscript --vanilla \
   -i /shared/lucasg/pipeline_cellhashing_tests/data/cellranger/filtered_feature_bc_matrix.h5 \
   -m /shared/lucasg/pipeline_cellhashing_tests/output/pool16/hto_count_matrix.csv.gz \
   -c /shared/lucasg/pipeline_cellhashing_tests/output/pool16/hto_category_table.csv.gz \
-  -w pool16
-  -d /shared/lucasg/pipeline_cellhashing_tests/output/split_h5/
+  -w pool16 \
+  -d /shared/lucasg/pipeline_cellhashing_tests/output/split_h5/ \
   -o /shared/lucasg/pipeline_cellhashing_tests/output/split_h5/pool16_split_summary_report.html
 ```
 
@@ -159,8 +159,8 @@ git clone https://github.com/aifimmunology/cell-hashing-pipeline.git
 
 Rscript --vanilla \
   cell-hashing-pipeline/run_h5_merge_by_hash.R \
-  -i /shared/lucasg/pipeline_cellhashing_tests/output/split_h5/
-  -d /shared/lucasg/pipeline_cellhashing_tests/output/merged_h5/
+  -i /shared/lucasg/pipeline_cellhashing_tests/output/split_h5/ \
+  -d /shared/lucasg/pipeline_cellhashing_tests/output/merged_h5/ \
   -o /shared/lucasg/pipeline_cellhashing_tests/output/merged_h5/hto_merge_summary_report.html
 ```
 
