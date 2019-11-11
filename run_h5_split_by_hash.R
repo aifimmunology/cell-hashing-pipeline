@@ -16,6 +16,11 @@ option_list <- list(
               default = NULL,
               help = "Input HTO category table file",
               metavar = "character"),
+  make_option(opt_str = c("-w","--out_well"),
+              type = "character",
+              default = NULL,
+              help = "Well",
+              metavar = "character"),
   make_option(opt_str = c("-d","--out_dir"),
               type = "character",
               default = NULL,
@@ -32,7 +37,7 @@ opt_parser <- OptionParser(option_list = option_list)
 
 args <- parse_args(opt_parser)
 
-if(is.null(args$in_type)) {
+if(is.null(args$in_h5)) {
   print_help(opt_parser)
   stop("No parameters supplied.")
 }
