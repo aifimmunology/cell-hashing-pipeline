@@ -9,7 +9,7 @@ This repository requires that `pandoc` and `libhdf5-devel` libraries are install
 sudo apt-get install pandoc libhdf5-devel
 ```
 
-It also depends on the `HTOparser`, `rmarkdown`, and `optparse` libraries.
+It also depends on the `H5weaver`, `HTOparser`, `rmarkdown`, and `optparse` libraries.
 
 `rmarkdown` and `optparse` are available from CRAN, and can be installed in R using:
 ```
@@ -18,10 +18,15 @@ install.packages("optparse")
 ```
 
 `HTOparser` is one of our own packages found in the aifimmunology Github repositories. Because it is a private repository, you may need to provided a [Github Personal Access Token](https://github.com/settings/tokens) for installation:
-
 ```
 Sys.setenv(GITHUB_PAT = "[your_PAT_here]")
 devtools::install_github("aifimmunology/HTOparser")
+```
+
+`H5weaver` is also found in the aifimmunology Github repositories. Install with:
+```
+Sys.setenv(GITHUB_PAT = "[your_PAT_here]")
+devtools::install_github("aifimmunology/H5weaver")
 ```
 
 ## Processing HTO FASTQ files
