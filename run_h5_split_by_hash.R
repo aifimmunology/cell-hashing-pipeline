@@ -56,7 +56,7 @@ rmarkdown::render(
                 in_mol = args$in_mol,
                 in_mat = args$in_mat,
                 in_tbl  = args$in_tbl,
-                well_id = args$in_well,
+                in_well = args$in_well,
                 out_dir = args$out_dir),
   output_file = args$out_html,
   quiet = TRUE
