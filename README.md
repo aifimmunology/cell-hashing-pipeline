@@ -4,9 +4,9 @@ Scripts for processing cell hashing/Hash Tag Oligo (HTO) data
 
 ## Dependencies
 
-This repository requires that `pandoc` libraries are installed:
+This repository requires that `pandoc` and `libhdf5-devel` libraries are installed:
 ```
-sudo apt-get install pandoc
+sudo apt-get install pandoc libhdf5-devel
 ```
 
 It also depends on the `HTOparser`, `rmarkdown`, and `optparse` libraries.
