@@ -127,7 +127,7 @@ Rscript --vanilla \
   -l /shared/lucasg/pipeline_cellhashing_tests/data/cellranger/molecule_info.h5 \
   -m /shared/lucasg/pipeline_cellhashing_tests/output/pool16/hto_count_matrix.csv.gz \
   -c /shared/lucasg/pipeline_cellhashing_tests/output/pool16/hto_category_table.csv.gz \
-  -w T001_RP1C1W1 \
+  -w T001-RP1C1W1 \
   -d /shared/lucasg/pipeline_cellhashing_tests/output/split_h5/ \
   -o /shared/lucasg/pipeline_cellhashing_tests/output/split_h5/pool16_split_summary_report.html
 ```
