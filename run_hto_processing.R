@@ -47,7 +47,7 @@ if(!is.null(args$in_key) & args$in_type %in% c("awk","cite")) {
     stop(paste("HTO name key file",args$in_key, "not found. Check file name, or omit -k to use a default file for TotalseqA Human HTOs."))
   }
 } else if(is.null(args$in_key) & args$in_type %in% c("awk","cite")) {
-  args$in_key <- system.file("reference/TotalSeqA_human_hto_key.csv", package = "HTOparser")
+  args$in_key <- system.file("reference/SampleSheet_fallback.csv", package = "HTOparser")
 }
 
 file.copy(system.file("rmarkdown/hto_processing.Rmd", package = "HTOparser"),
