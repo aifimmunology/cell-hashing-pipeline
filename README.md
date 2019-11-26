@@ -33,7 +33,23 @@ devtools::install_github("aifimmunology/H5weaver")
 
 `cell-hashing-pipeline` is compatible with results from the Python tool [`CITE-seq-Count`](https://github.com/Hoohm/CITE-seq-Count) and with a simple, `awk/sort/uniq` driven processing script.
 
-The latter can be performed directly from the R1 and R2 HTO FASTQ files using:
+For `CITE-seq-Count`, this repository includes a tag list that should be used for TotalSeqA Human HTOs:
+```
+git clone https://github.com/aifimmunology/cell-hashing-pipeline.git
+
+CITE-seq-Count \
+  -R1 Pool-16-HTO_S5_L001_R1_001.fastq.gz \
+  -R2 Pool-16-HTO_S5_L001_R2_001.fastq.gz \
+  -t cell-hashing-pipeline/cite-seq-count_taglist.csv \
+  -cbf 1 \
+  -cbl 16 \
+  -umif 17 \
+  -umil 26 \
+  -cells 50000 \
+  -o /shared/lucasg/pipeline_cellhashing_tests/data/pool16/
+```
+
+The `awk/sort/uniq` analysis version can be performed directly from the R1 and R2 HTO FASTQ files using:
 ```
 paste <(zcat Pool-16-HTO_S5_L001_R1_001.fastq.gz) <(zcat Pool-16-HTO_S5_L001_R2_001.fastq.gz) | \
   awk '{if((NR+2)%4==0) {print substr($1,1,16) " " substr($2,1,15) " " substr($1,17,10)}}' | \
