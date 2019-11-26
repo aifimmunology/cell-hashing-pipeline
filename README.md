@@ -70,10 +70,32 @@ devtools::install_github("aifimmunology/HTOparser")
 
 Once installed, this repository can serve as a bridge to actually run the HTO interpretation, output files, and generate a summary report using the `run_hto_processing.R` wrapper script.
 
+`run_hto_processing.R` requires a **Sample Sheet**, provided as the -k parameter, which has 4 comma-separated columns: SampleID, BatchID, HashTag, and PoolID.  
+
+For example:
+```
+SampleID,BatchID,HashTag,PoolID
+PB5206W2,P001,HT1,P1
+PB5206W3,P001,HT2,P1
+PB5206W4,P001,HT3,P1
+PB5206W5,P001,HT4,P1
+PB5206W6,P001,HT5,P1
+PB5206W7,P001,HT6,P1
+PB7626W2,P001,HT7,P1
+PB7626W3,P001,HT8,P1
+PB7626W4,P001,HT9,P1
+PB7626W5,P001,HT10,P1
+PB7626W6,P001,HT12,P1
+PB7626W7,P001,HT13,P1
+IMM19-711,P001,HT14,P1
+```
+
+If you are running this script without a **Sample Sheet**, the -k parameter can be omitted, which will use a fall-back built into `HTOparser`.
+
 There are 6 parameters for this script:  
  - `-t or --in_type`: Either 'cite' or 'awk'  
  - `-i or --in_file`: The input file to process. Should be the output from `CITE-seq-Count` or the shell script, above.
- - `-k or --in_key`: A two-column CSV file without headers. The first column is each HTO barcode used, and the second is the name used for each barcode.
+ - `-k or --in_key`: A 4-column Sample Sheet (see above).
  - `-m or --out_mat`: A filename to use to output the count matrix (should end with .csv.gz)
  - `-c or --out_cat`: A filename to use to output the category table (should end with .csv.gz)
  - `-o or --out_html`: A filename to use to output the HTML summary report file
@@ -86,7 +108,7 @@ Rscript --vanilla \
   cell-hashing-pipeline/run_hto_processing.R \
   -t cite \
   -i /shared/lucasg/pipeline_cellhashing_tests/data/pool16/HTO_umi_count_matrix.csv.gz \
-  -k /shared/lucasg/pipeline_cellhashing_tests/data/hashing_pilot_key.csv \
+  -k /shared/lucasg/pipeline_cellhashing_tests/data/SampleSheet.csv \
   -m /shared/lucasg/pipeline_cellhashing_tests/output/pool16/hto_count_matrix.csv.gz \
   -c /shared/lucasg/pipeline_cellhashing_tests/output/pool16/hto_category_table.csv.gz \
   -o /shared/lucasg/pipeline_cellhashing_tests/output/pool16/hto_summary_report.html
