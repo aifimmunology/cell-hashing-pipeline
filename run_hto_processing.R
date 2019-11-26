@@ -51,7 +51,8 @@ if(!is.null(args$in_key) & args$in_type %in% c("awk","cite")) {
 }
 
 file.copy(system.file("rmarkdown/hto_processing.Rmd", package = "HTOparser"),
-          "./hto_processing.Rmd")
+          "./hto_processing.Rmd",
+          overwrite = TRUE)
 
 rmarkdown::render(
   input = "./hto_processing.Rmd",

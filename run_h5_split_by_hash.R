@@ -48,7 +48,8 @@ if(is.null(args$in_h5)) {
 }
 
 file.copy(system.file("rmarkdown/split_h5_by_hash.Rmd", package = "H5weaver"),
-          "./split_h5_by_hash.Rmd")
+          "./split_h5_by_hash.Rmd",
+          overwrite = TRUE)
 
 rmarkdown::render(
   input = "./split_h5_by_hash.Rmd",

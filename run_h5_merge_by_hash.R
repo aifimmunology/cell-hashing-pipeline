@@ -28,7 +28,8 @@ if(is.null(args$in_dir)) {
 }
 
 file.copy(system.file("rmarkdown/merge_h5_by_hash.Rmd", package = "H5weaver"),
-          "./merge_h5_by_hash.Rmd")
+          "./merge_h5_by_hash.Rmd",
+          overwrite = TRUE)
 
 rmarkdown::render(
   input = "./merge_h5_by_hash.Rmd",
