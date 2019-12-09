@@ -20,7 +20,7 @@ RUN apt-get update \
     && rm -rf /var/lib/apt/lists/ \ 
     && rm -rf /tmp/downloaded_packages/ /tmp/*.rds
     
-## Install packages from CRAN
+## Install packages from Github
 RUN Rscript -e "devtools::install_github(repo = 'aifimmunology/H5weaver', username = 'aifi-aldan', auth_token = '***TOKEN***')" \
     && Rscript -e "devtools::install_github(repo = 'aifimmunology/HTOparser', username = 'aifi-aldan', auth_token = '***TOKEN***')" \
     ## clean up
