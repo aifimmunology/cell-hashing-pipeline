@@ -9,7 +9,7 @@ option_list <- list(
   make_option(opt_str = c("-l","--in_mol"),
               type = "character",
               default = NULL,
-              help = "Input molecule_info.h5 file",
+              help = "Input molecule_info.h5 file (Ignored/Deprecated)",
               metavar = "character"),
   make_option(opt_str = c("-m","--in_mat"),
               type = "character",
