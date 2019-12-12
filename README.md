@@ -9,10 +9,11 @@ This repository requires that `pandoc` and `libhdf5-devel` libraries are install
 sudo apt-get install pandoc libhdf5-devel
 ```
 
-It also depends on the `H5weaver`, `HTOparser`, `rmarkdown`, and `optparse` libraries.
+It also depends on the `H5weaver`, `HTOparser`,`jsonlite`, `rmarkdown`, and `optparse` libraries.
 
-`rmarkdown` and `optparse` are available from CRAN, and can be installed in R using:
+`jsonlite`, `rmarkdown`, and `optparse` are available from CRAN, and can be installed in R using:
 ```
+install.packages("jsonlite")
 install.packages("rmarkdown")
 install.packages("optparse")
 ```

@@ -15,6 +15,7 @@ data.table
 dplyr  
 ids  
 ggplot2  
+jsonlite  
 Matrix  
 optparse  
 purrr  
