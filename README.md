@@ -8,17 +8,17 @@ Scripts for processing cell hashing/Hash Tag Oligo (HTO) data
 
 #### [HTO Counting](#hto)
 
-#### [HTO Parsing](hto_parse)
+#### [HTO Parsing: run_hto_parsing.R](hto_parse)
 - [Sample Sheet Guidelines](#sample_sheet)
-- [Parameters](#hto_parse_params)
+- [Parameters](#hto_parse_param)
 - [Tests](#hto_parse_test)
 
-#### [Split by Hash](#split)
+#### [Split by Hash: run_h5_split_by_hash.R](#split)
 - [Parameters](#split_param)
 - [Outputs](#split_out)
 - [Tests](#split_test)
 
-#### [Merge by Hash](#merge)
+#### [Merge by Hash: run_h5_merge_by_hash.R](#merge)
 - [Parameters](#merge_param)
 - [Outputs](#merge_out)
 - [Tests](#merge_test)
@@ -123,7 +123,7 @@ PB7626W6,P001,HT12,P1
 PB7626W7,P001,HT13,P1
 IMM19-711,P001,HT14,P1
 ```
-<a id="hto_parse_params"></a>
+<a id="hto_parse_param"></a>
 
 If you are running this script without a **Sample Sheet**, the -k parameter can be omitted, which will use a fall-back built into `HTOparser`.
 
