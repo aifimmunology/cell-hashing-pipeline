@@ -2,13 +2,15 @@
 
 Scripts for processing cell hashing/Hash Tag Oligo (HTO) data
 
+<a id="contents"></a>
+
 ## Contents
 
 #### [Dependencies](#dependencies)
 
 #### [HTO Counting](#hto)
 
-#### [HTO Parsing: run_hto_parsing.R](hto_parse)
+#### [HTO Parsing: run_hto_parsing.R](#hto_parse)
 - [Sample Sheet Guidelines](#sample_sheet)
 - [Parameters](#hto_parse_param)
 - [Tests](#hto_parse_test)
