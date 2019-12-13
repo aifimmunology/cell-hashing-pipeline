@@ -13,6 +13,7 @@ Scripts for processing cell hashing/Hash Tag Oligo (HTO) data
 #### [HTO Parsing: run_hto_parsing.R](#hto_parse)
 - [Sample Sheet Guidelines](#sample_sheet)
 - [Parameters](#hto_parse_param)
+- [Outputs](#hto_parse_out)
 - [Tests](#hto_parse_test)
 
 #### [Split by Hash: run_h5_split_by_hash.R](#split)
@@ -63,7 +64,7 @@ devtools::install_github("aifimmunology/H5weaver")
 
 `cell-hashing-pipeline` is compatible with results from the Python tool [`CITE-seq-Count`](https://github.com/Hoohm/CITE-seq-Count) and with a simple, `awk/sort/uniq` driven processing script.
 
-For `CITE-seq-Count`, this repository includes a tag list that should be used for TotalSeqA Human HTOs:
+For `CITE-seq-Count v1.4.3`, this repository includes a tag list that should be used for TotalSeqA Human HTOs:
 ```
 git clone https://github.com/aifimmunology/cell-hashing-pipeline.git
 
@@ -143,6 +144,20 @@ There are 6 parameters for this script:
 * `-c or --out_cat`: A filename to use to output the category table (should end with .csv.gz)
 * `-o or --out_html`: A filename to use to output the HTML summary report file
 
+An example run for `CITE-seq-Count v1.4.3` results, as shown in the section above:
+```
+git clone https://github.com/aifimmunology/cell-hashing-pipeline.git
+
+Rscript --vanilla \
+  cell-hashing-pipeline/run_hto_processing.R \
+  -t cite \
+  -i /shared/lucasg/pipeline_cellhashing_tests/data/pool16/HTO/ \
+  -k /shared/lucasg/pipeline_cellhashing_tests/data/SampleSheet.csv \
+  -w T001-P1C1W1 \ 
+  -d /shared/lucasg/pipeline_cellhashing_tests/output/pool16/ \
+  -o /shared/lucasg/pipeline_cellhashing_tests/output/pool16/T001-RP1C1W1_hto_report.html
+```
+
 An example run for `CITE-seq-Count v1.4.2` results:
 ```
 git clone https://github.com/aifimmunology/cell-hashing-pipeline.git
@@ -152,9 +167,9 @@ Rscript --vanilla \
   -t cite \
   -i /shared/lucasg/pipeline_cellhashing_tests/data/pool16/HTO_umi_count_matrix \
   -k /shared/lucasg/pipeline_cellhashing_tests/data/SampleSheet.csv \
-  -m /shared/lucasg/pipeline_cellhashing_tests/output/pool16/hto_count_matrix.csv.gz \
-  -c /shared/lucasg/pipeline_cellhashing_tests/output/pool16/hto_category_table.csv.gz \
-  -o /shared/lucasg/pipeline_cellhashing_tests/output/pool16/hto_summary_report.html
+  -w T001-P1C1W1 \ 
+  -d /shared/lucasg/pipeline_cellhashing_tests/output/pool16/ \
+  -o /shared/lucasg/pipeline_cellhashing_tests/output/pool16/T001-RP1C1W1_hto_report.html
 ```
 
 An example run for awk/shell results:
@@ -163,11 +178,30 @@ Rscript --vanilla \
   cell-hashing-pipeline/run_hto_processing.R \
   -t awk \
   -i /shared/lucasg/pipeline_cellhashing_tests/data/pool16/unfiltered_hto_counts_gt10.txt \
-  -k /shared/lucasg/pipeline_cellhashing_tests/data/hashing_pilot_key.csv \
-  -m /shared/lucasg/pipeline_cellhashing_tests/output/pool16/hto_count_matrix.csv.gz \
-  -c /shared/lucasg/pipeline_cellhashing_tests/output/pool16/hto_category_table.csv.gz \
-  -o /shared/lucasg/pipeline_cellhashing_tests/output/pool16/hto_summary_report.html
+  -k /shared/lucasg/pipeline_cellhashing_tests/data/SampleSheet.csv \
+  -w T001-P1C1W1 \ 
+  -d /shared/lucasg/pipeline_cellhashing_tests/output/pool16/ \
+  -o /shared/lucasg/pipeline_cellhashing_tests/output/pool16/T001-P1C1W1_hto_processing_report.html
 ```
+[Return to Contents](#contents)
+
+<a id="hto_parse_out"></a>
+
+### Output Files
+
+`run_hto_processing.R` will generate two .csv.gz files and a JSON metrics report file as well as the HTML reporting file. 
+
+.csv.gz files are named based on WellID : [WellID]_hto_count_matrix.csv.gz and [WellID]_hto_category.csv.gz
+.json files are named based on WellID: [WellID]_hto_processing_metrics.json
+
+For example, using the run above, we would get the following outputs in out_dir:
+```
+T001-P1C1W1_hto_category.csv.gz
+T001-P1C1W1_hto_count_matrix.csv.gz
+T001-P1C1W1_hto_processing_metrics.json
+T001-P1C1W1_hto_processing_report.html
+```
+
 [Return to Contents](#contents)
 
 <a id="hto_parse_test"></a>
@@ -180,12 +214,12 @@ Test runs can be performed using datasets provided with the `HTOparser` package 
 Rscript --vanilla \
   cell-hashing-pipeline/run_hto_processing.R \
   -t test_cite \
-  -o /shared/lucasg/pipeline_cellhashing_tests/output/test_cite/hto_summary_report.html
+  -o /shared/lucasg/pipeline_cellhashing_tests/output/test_cite/hto_processing_report.html
 
 Rscript --vanilla \
   cell-hashing-pipeline/run_hto_processing.R \
   -t test_awk \
-  -o /shared/lucasg/pipeline_cellhashing_tests/output/test_awk/hto_summary_report.html
+  -o /shared/lucasg/pipeline_cellhashing_tests/output/test_awk/hto_processing_report.html
 ```
 
 [Return to Contents](#contents)
@@ -222,7 +256,7 @@ Rscript --vanilla \
   -c /shared/lucasg/pipeline_cellhashing_tests/output/pool16/hto_category_table.csv.gz \
   -w T001-RP1C1W1 \
   -d /shared/lucasg/pipeline_cellhashing_tests/output/split_h5/ \
-  -o /shared/lucasg/pipeline_cellhashing_tests/output/split_h5/T001-RP1C1W1_split_summary_report.html
+  -o /shared/lucasg/pipeline_cellhashing_tests/output/split_h5/T001-RP1C1W1_split_h5_report.html
 ```
 [Return to Contents](#contents)
 
@@ -252,7 +286,7 @@ T001-RP1C1W1_GTCAACTCTTTAGCG.h5
 T001-RP1C1W1_GGTTGCCAGATGTCA.h5
 T001-RP1C1W1_multiplet.h5
 T001-RP1C1W1_split_h5_metrics.json
-T001-RP1C1W1_split_summary_report.html
+T001-RP1C1W1_split_h5_report.html
 ```
 
 [Return to Contents](#contents)
@@ -296,7 +330,7 @@ Rscript --vanilla \
   cell-hashing-pipeline/run_h5_merge_by_hash.R \
   -i /shared/lucasg/pipeline_cellhashing_tests/output/split_h5/ \
   -d /shared/lucasg/pipeline_cellhashing_tests/output/merged_h5/ \
-  -o /shared/lucasg/pipeline_cellhashing_tests/output/merged_h5/P001-P1_merge_summary_report.html
+  -o /shared/lucasg/pipeline_cellhashing_tests/output/merged_h5/P001-P1_merge_h5_report.html
 ```
 
 [Return to Contents](#contents)
@@ -327,7 +361,7 @@ P001-P1_PB7626W7.h5
 P001-P1_IMM19-711.h5
 P001-P1_multiplet.h5
 P001-P1_merge_h5_metrics.json
-P001-P1_merge_summary_report.html
+P001-P1_merge_h5_report.html
 ```
 
 [Return to Contents](#contents)
