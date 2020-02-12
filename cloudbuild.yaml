@@ -37,10 +37,11 @@ steps:
 
 - name: 'gcr.io/cloud-builders/docker'
   entrypoint: /bin/bash
-  args: [ "-c", "docker build -t us.gcr.io/$PROJECT_ID/cellhashing:v${_HISE_VERSION}_${_ENV}${_PR_NUMBER} ." ]
+  args: [ "-c", "docker build -t us.gcr.io/$PROJECT_ID/cellhashing:v${_HISE_VERSION}_${_ENV}3 ." ]
   env: ['PROJECT_ROOT=github.com/aifimmunology/cell-hashing-pipeline']
 
 - name: 'gcr.io/cloud-builders/docker'
   entrypoint: /bin/bash
-  args: [ "-c", "docker push us.gcr.io/$PROJECT_ID/cellhashing:v${_HISE_VERSION}_${_ENV}${_PR_NUMBER}"]
+  args: [ "-c", "docker push us.gcr.io/$PROJECT_ID/cellhashing:v${_HISE_VERSION}_${_ENV}3"]
   env: ['PROJECT_ROOT=github.com/aifimmunology/cell-hashing-pipeline']
+timeout: 1800s
