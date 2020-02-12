@@ -1,4 +1,4 @@
-FROM us.gcr.io/dev-i-collabcloud/google-r-base@sha256:fc0f941fc133fc049f7df3150c2fe0b698ce9dbc04432000c730ce2f6cd90a3b
+FROM us.gcr.io/dev-pipeline-internal/google-r-base:v1.0
 
 ## Resolving R and lib dependencies
 RUN apt-get update \
