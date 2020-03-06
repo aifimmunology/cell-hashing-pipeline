@@ -40,3 +40,5 @@ steps:
   entrypoint: /bin/bash
   args: [ "-c", "docker push us.gcr.io/${PROJECT_ID}/${_SERVICE_NAME}:v${_HISE_VERSION}_${_ENV}${_PR_NUMBER}"]
   env: ["PROJECT_ROOT=github.com/aifimmunology/${_SERVICE_NAME}"]
+
+timeout: 1800s
