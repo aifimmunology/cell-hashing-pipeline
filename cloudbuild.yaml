@@ -13,6 +13,21 @@ steps:
   - name: 'ssh'
     path: /root/.ssh
 
+steps:
+- name: 'gcr.io/cloud-builders/gcloud'
+  args:
+  - kms
+  - decrypt
+  - --ciphertext-file=auth_token.enc
+  - --plaintext-file=auth_token
+  - --location=global
+  - --keyring=gitops-keyring
+  - --key=github-key
+  - --project=dev-i-collabcloud
+  volumes:
+  - name: 'ssh'
+    path: /root/.ssh
+
 - name: 'gcr.io/cloud-builders/git'
   entrypoint: 'bash'
   args:
@@ -41,4 +56,4 @@ steps:
   args: [ "-c", "docker push us.gcr.io/${PROJECT_ID}/${_SERVICE_NAME}:v${_HISE_VERSION}_${_ENV}${_PR_NUMBER}"]
   env: ["PROJECT_ROOT=github.com/aifimmunology/${_SERVICE_NAME}"]
 
-timeout: 1800s
+timeout: 3600s
