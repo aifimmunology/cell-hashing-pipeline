@@ -47,8 +47,12 @@ if(is.null(args$in_h5)) {
   stop("No parameters supplied.")
 }
 
+if(!dir.exists(args$out_dir)) {
+  dir.create(args$out_dir)
+}
+
 file.copy(system.file("rmarkdown/split_h5_by_hash.Rmd", package = "H5weaver"),
-          "./split_h5_by_hash.Rmd",
+          file.path(args$out_dir,"split_h5_by_hash.Rmd"),
           overwrite = TRUE)
 
 rmarkdown::render(
@@ -63,4 +67,4 @@ rmarkdown::render(
   quiet = TRUE
 )
 
-file.remove("./split_h5_by_hash.Rmd")
+file.remove(file.path(args$out_dir,"split_h5_by_hash.Rmd"))

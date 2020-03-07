@@ -27,8 +27,12 @@ if(is.null(args$in_dir)) {
   stop("No parameters supplied.")
 }
 
+if(!dir.exists(args$out_dir)) {
+  dir.create(args$out_dir)
+}
+
 file.copy(system.file("rmarkdown/merge_h5_by_hash.Rmd", package = "H5weaver"),
-          "./merge_h5_by_hash.Rmd",
+          file.path(args$out_dir,"merge_h5_by_hash.Rmd"),
           overwrite = TRUE)
 
 rmarkdown::render(
@@ -39,4 +43,4 @@ rmarkdown::render(
   quiet = TRUE
 )
 
-file.remove("./merge_h5_by_hash.Rmd")
+file.remove(file.path(args$out_dir,"merge_h5_by_hash.Rmd"))
