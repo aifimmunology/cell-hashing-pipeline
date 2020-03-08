@@ -54,8 +54,12 @@ if(!dir.exists(args$out_dir)) {
   dir.create(args$out_dir)
 }
 
+rmd_path <- file.path(args$out_dir,
+                      paste0(args$in_well,
+                             "_hto_processing.Rmd"))
+
 file.copy(system.file("rmarkdown/hto_processing.Rmd", package = "HTOparser"),
-          file.path(args$out_dir,"hto_processing.Rmd"),
+          rmd_path,
           overwrite = TRUE)
 
 rmarkdown::render(
@@ -69,4 +73,4 @@ rmarkdown::render(
   quiet = TRUE
 )
 
-file.remove(file.path(args$out_dir,"hto_processing.Rmd"))
+file.remove(rmd_path)

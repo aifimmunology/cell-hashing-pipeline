@@ -51,8 +51,12 @@ if(!dir.exists(args$out_dir)) {
   dir.create(args$out_dir)
 }
 
+rmd_path <- file.path(args$out_dir,
+                      paste0(args$in_well,
+                             "_split_h5_by_hash.Rmd"))
+
 file.copy(system.file("rmarkdown/split_h5_by_hash.Rmd", package = "H5weaver"),
-          file.path(args$out_dir,"split_h5_by_hash.Rmd"),
+          rmd_path,
           overwrite = TRUE)
 
 rmarkdown::render(
@@ -67,4 +71,4 @@ rmarkdown::render(
   quiet = TRUE
 )
 
-file.remove(file.path(args$out_dir,"split_h5_by_hash.Rmd"))
+file.remove(rmd_path)
