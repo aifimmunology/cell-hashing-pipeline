@@ -60,7 +60,7 @@ file.copy(system.file("rmarkdown/split_h5_by_hash.Rmd", package = "H5weaver"),
           overwrite = TRUE)
 
 rmarkdown::render(
-  input = "./split_h5_by_hash.Rmd",
+  input = rmd_path,
   params = list(in_h5 = args$in_h5,
                 in_mol = args$in_mol,
                 in_mat = args$in_mat,

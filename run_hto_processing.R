@@ -63,7 +63,7 @@ file.copy(system.file("rmarkdown/hto_processing.Rmd", package = "HTOparser"),
           overwrite = TRUE)
 
 rmarkdown::render(
-  input = "./hto_processing.Rmd",
+  input = rmd_path,
   params = list(in_type = args$in_type,
                 in_file = args$in_file,
                 in_key  = args$in_key,
