@@ -65,7 +65,7 @@ devtools::install_github("aifimmunology/H5weaver")
 
 `cell-hashing-pipeline` is compatible with results from the C tool [`BarCounter`](https://github.com/aifimmunology/BarCounter), Python tool [`CITE-seq-Count`](https://github.com/Hoohm/CITE-seq-Count), and with a simple, `awk/sort/uniq` driven processing script.
 
-For `BarCounter`, this repository includes a tag list that should be used for TotalSeqA HTO barcodes. `BarCounter` also utilizes a cell barcode whitelist, which can be obtained from 10x CellRanger outputs (outs/filtered_feature_bc_matrix/barcodes.tsv.gz) or from the 10x CellRanger software files ():
+For `BarCounter`, this repository includes a tag list that should be used for TotalSeqA HTO barcodes. `BarCounter` also utilizes a cell barcode whitelist, and can use 10x CellRanger outputs (outs/filtered_feature_bc_matrix/barcodes.tsv.gz) or the full list of valid 10x barcodes included with 10x CellRanger software files (cellranger-3.1.0/cellranger-cs/3.1.0/lib/python/cellranger/barcodes/3M-february-2018.txt.gz):
 ```
 git clone https://github.com/aifimmunology/cell-hashing-pipeline.git
 
