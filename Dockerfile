@@ -1,4 +1,4 @@
-FROM us.gcr.io/dev-pipeline-internal/google-r-base@sha256:259f258641580f5772c953ddcdc2289c6882d3b2d40aeb77a5a7eb5242a8017e
+FROM us.gcr.io/dev-pipeline-internal/google-r-base:v1.0
 
 ## Resolving R and lib dependencies
 RUN apt-get update \

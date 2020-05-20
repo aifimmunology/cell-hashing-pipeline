@@ -28,6 +28,7 @@ steps:
   - name: 'ssh'
     path: /root/.ssh
 
+
 - name: 'gcr.io/cloud-builders/git'
   entrypoint: 'bash'
   args:
@@ -43,17 +44,21 @@ steps:
   - name: 'ssh'
     path: /root/.ssh
 
-- name: 'gcr.io/cloud-builders/docker'
-  entrypoint: /bin/bash
-  args: [ "-c", "docker build -t us.gcr.io/${PROJECT_ID}/${_SERVICE_NAME}:v${_HISE_VERSION}_${_ENV}${_PR_NUMBER} ." ]
-  env: ["PROJECT_ROOT=github.com/aifimmunology/${_SERVICE_NAME}"]
+- name: 'gcr.io/cloud-builders/git'
+  args:
+  - clone
+  - git@github.com:aifimmunology/cell-hashing-pipeline
   volumes:
   - name: 'ssh'
     path: /root/.ssh
 
 - name: 'gcr.io/cloud-builders/docker'
   entrypoint: /bin/bash
-  args: [ "-c", "docker push us.gcr.io/${PROJECT_ID}/${_SERVICE_NAME}:v${_HISE_VERSION}_${_ENV}${_PR_NUMBER}"]
-  env: ["PROJECT_ROOT=github.com/aifimmunology/${_SERVICE_NAME}"]
+  args: [ "-c", "docker build -t us.gcr.io/$PROJECT_ID/cellhashing:v${_HISE_VERSION}_${_ENV}3 ." ]
+  env: ['PROJECT_ROOT=github.com/aifimmunology/cell-hashing-pipeline']
 
-timeout: 3600s
+- name: 'gcr.io/cloud-builders/docker'
+  entrypoint: /bin/bash
+  args: [ "-c", "docker push us.gcr.io/$PROJECT_ID/cellhashing:v${_HISE_VERSION}_${_ENV}3"]
+  env: ['PROJECT_ROOT=github.com/aifimmunology/cell-hashing-pipeline']
+timeout: 1800s
