@@ -6,7 +6,7 @@ steps:
   - --ciphertext-file=id_rsa.enc
   - --plaintext-file=/root/.ssh/id_rsa
   - --location=global
-  - --keyring=gitops-keyring
+  - --keyring=cicd-keyring
   - --key=github-key
   - --project=core-security-internal
   volumes:
@@ -21,7 +21,7 @@ steps:
   - --ciphertext-file=auth_token.enc
   - --plaintext-file=auth_token
   - --location=global
-  - --keyring=gitops-keyring
+  - --keyring=cicd-keyring
   - --key=github-key
   - --project=core-security-internal
   volumes:
