@@ -23,7 +23,7 @@ steps:
   - --location=global
   - --keyring=gitops-keyring
   - --key=github-key
-  - --project=dev-i-collabcloud
+  - --project=core-security-internal
   volumes:
   - name: 'ssh'
     path: /root/.ssh
