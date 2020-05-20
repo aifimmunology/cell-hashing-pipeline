@@ -47,12 +47,20 @@ if(is.null(args$in_h5)) {
   stop("No parameters supplied.")
 }
 
+if(!dir.exists(args$out_dir)) {
+  dir.create(args$out_dir)
+}
+
+rmd_path <- file.path(args$out_dir,
+                      paste0(args$in_well,
+                             "_split_h5_by_hash.Rmd"))
+
 file.copy(system.file("rmarkdown/split_h5_by_hash.Rmd", package = "H5weaver"),
-          "./split_h5_by_hash.Rmd",
+          rmd_path,
           overwrite = TRUE)
 
 rmarkdown::render(
-  input = "./split_h5_by_hash.Rmd",
+  input = rmd_path,
   params = list(in_h5 = args$in_h5,
                 in_mol = args$in_mol,
                 in_mat = args$in_mat,
@@ -63,4 +71,4 @@ rmarkdown::render(
   quiet = TRUE
 )
 
-file.remove("./split_h5_by_hash.Rmd")
+file.remove(rmd_path)

@@ -3,7 +3,8 @@ FROM us.gcr.io/dev-pipeline-internal/google-r-base:v1.0
 ## Resolving R and lib dependencies
 RUN apt-get update \
     && apt-get install -y \
-    python3-pip \
+    python3.7-dev \
+    build-essential \
     libbz2-dev \
     liblzma-dev \
     libssl-dev \
@@ -13,19 +14,38 @@ RUN apt-get update \
     libcurl4-openssl-dev \
     libhdf5-dev \
     pandoc \
-    && pip3 install Cython \
-    && Rscript -e "install.packages(c('BiocManager', 'devtools', 'assertthat', 'cowplot', 'data.table', 'dplyr', 'ids', 'ggplot2', 'jsonlite', 'Matrix', 'optparse', 'purrr', 'R.utils', 'rmarkdown')); BiocManager::install('rhdf5')" \
-    && pip3 install CITE-seq-Count==1.4.3 \
+    python3-dev \
+    python3-distutils \
     ## clean up
-    && apt-get clean \ 
-    && rm -rf /var/lib/apt/lists/ \ 
+    && apt-get clean \
+    && rm -rf /var/lib/apt/lists/ \
     && rm -rf /tmp/downloaded_packages/ /tmp/*.rds
-    
-## Install packages from Github
-RUN Rscript -e "devtools::install_github(repo = 'aifimmunology/H5weaver', username = 'aifi-aldan', auth_token = '***TOKEN***')" \
-    && Rscript -e "devtools::install_github(repo = 'aifimmunology/HTOparser', username = 'aifi-aldan', auth_token = '***TOKEN***')" \
+
+RUN curl https://bootstrap.pypa.io/get-pip.py -o get-pip.py \
+    && python3.7 get-pip.py
+
+RUN update-alternatives --install /usr/bin/python python /usr/bin/python3.7 1 \
+    && update-alternatives --set python /usr/bin/python3.7 \
+    && update-alternatives --install /usr/bin/python3 python3 /usr/bin/python3.7 1 \
+    && update-alternatives --set python3 /usr/bin/python3.7 \
+    && python3.7 -m pip install wheel \
+    && python3.7 -m pip install python-levenshtein \
+    && python3.7 -m pip install Cython \
+    && python3.7 -m pip install pysam \
+    && Rscript -e "install.packages(c('BiocManager', 'devtools', 'assertthat', 'cowplot', 'data.table', 'dplyr', 'ids', 'ggplot2', 'jsonlite', 'Matrix', 'optparse', 'purrr', 'R.utils', 'rmarkdown')); BiocManager::install('rhdf5')" \
+    && python3.7 -m pip install CITE-seq-Count==1.4.3 \
     ## clean up
-    && rm -rf /tmp/downloaded_packages/ /tmp/*.rds \
-    && git clone https://aifi-aldan:***TOKEN***@github.com/aifimmunology/cell-hashing-pipeline.git 
+    && apt-get clean \
+    && rm -rf /var/lib/apt/lists/ \
+    && rm -rf /tmp/downloaded_packages/ /tmp/*.rds
+
+COPY auth_token /tmp/auth_token
+
+## Install packages from CRAN
+RUN export GITHUB_PAT=$(cat /tmp/auth_token) \
+    && Rscript -e "Sys.getenv('GITHUB_PAT'); devtools::install_github(repo = 'aifimmunology/H5weaver', username = 'aifi-aldan'); devtools::install_github(repo = 'aifimmunology/HTOparser', username = 'aifi-aldan')" \
+    ## clean up
+    && git clone https://aifi-aldan:$GITHUB_PAT@github.com/aifimmunology/cell-hashing-pipeline.git \
+    && rm -rf /tmp/downloaded_packages/ /tmp/*.rds /tmp/auth_token
 
 ENTRYPOINT ["tail", "-f", "/dev/null"]

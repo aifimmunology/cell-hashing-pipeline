@@ -50,12 +50,20 @@ if(!is.null(args$in_key) & args$in_type %in% c("barcounter","awk","cite")) {
   args$in_key <- system.file("reference/SampleSheet_fallback.csv", package = "HTOparser")
 }
 
+if(!dir.exists(args$out_dir)) {
+  dir.create(args$out_dir)
+}
+
+rmd_path <- file.path(args$out_dir,
+                      paste0(args$in_well,
+                             "_hto_processing.Rmd"))
+
 file.copy(system.file("rmarkdown/hto_processing.Rmd", package = "HTOparser"),
-          "./hto_processing.Rmd",
+          rmd_path,
           overwrite = TRUE)
 
 rmarkdown::render(
-  input = "./hto_processing.Rmd",
+  input = rmd_path,
   params = list(in_type = args$in_type,
                 in_file = args$in_file,
                 in_key  = args$in_key,
@@ -65,4 +73,4 @@ rmarkdown::render(
   quiet = TRUE
 )
 
-file.remove("./hto_processing.Rmd")
+file.remove(rmd_path)

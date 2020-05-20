@@ -13,6 +13,22 @@ steps:
   - name: 'ssh'
     path: /root/.ssh
 
+steps:
+- name: 'gcr.io/cloud-builders/gcloud'
+  args:
+  - kms
+  - decrypt
+  - --ciphertext-file=auth_token.enc
+  - --plaintext-file=auth_token
+  - --location=global
+  - --keyring=gitops-keyring
+  - --key=github-key
+  - --project=dev-i-collabcloud
+  volumes:
+  - name: 'ssh'
+    path: /root/.ssh
+
+
 - name: 'gcr.io/cloud-builders/git'
   entrypoint: 'bash'
   args:
