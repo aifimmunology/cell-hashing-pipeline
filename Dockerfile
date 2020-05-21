@@ -19,6 +19,7 @@ RUN apt-get update \
     pandoc \
     python3-dev \
     python3-distutils \
+    libpng-dev \
     ## clean up
     && apt-get clean \
     && rm -rf /var/lib/apt/lists/ \
