@@ -18,7 +18,7 @@ steps:
   - kms
   - decrypt
   - --ciphertext-file=auth_token.enc
-  - --plaintext-file=/root/.ssh/auth_token
+  - --plaintext-file=auth_token
   - --location=global
   - --keyring=cicd-keyring
   - --key=github-key
