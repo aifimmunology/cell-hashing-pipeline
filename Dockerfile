@@ -36,7 +36,7 @@ RUN update-alternatives --install /usr/bin/python python /usr/bin/python3 1 \
     && python3 -m pip install python-levenshtein \
     && python3 -m pip install Cython \
     && python3 -m pip install pysam \
-    && Rscript -e "install.packages(c('BiocManager', 'devtools', 'assertthat', 'cowplot', 'data.table', 'dplyr', 'ids', 'ggplot2', 'jsonlite', 'Matrix', 'optparse', 'purrr', 'R.utils', 'rmarkdown')); BiocManager::install('rhdf5')" \
+    && Rscript -e "install.packages(c('BiocManager', 'devtools', 'assertthat', 'cowplot', 'data.table', 'dplyr', 'ids', 'ggplot2', 'jsonlite', 'Matrix', 'optparse', 'purrr', 'R.utils', 'rmarkdown')); BiocManager::install(c('rhdf5', 'SingleCellExperiment', 'SummarizedExperiment'))" \
     && python3 -m pip install CITE-seq-Count==1.4.3 \
     ## clean up
     && apt-get clean \
