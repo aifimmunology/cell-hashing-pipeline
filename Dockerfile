@@ -46,10 +46,10 @@ RUN update-alternatives --install /usr/bin/python python /usr/bin/python3 1 \
 COPY auth_token.enc /tmp/auth_token
 
 ## Install packages from CRAN
-RUN export GITHUB_PAT=$(cat /tmp/auth_token) \
-    && Rscript -e "Sys.getenv('GITHUB_PAT'); devtools::install_github(repo = 'aifimmunology/H5weaver', username = 'aifi-aldan'); devtools::install_github(repo = 'aifimmunology/HTOparser', username = 'aifi-aldan')" \
+RUN export GITHUB_PAT=$(cat /root/.ssh/auth_token) \
+    && Rscript -e "devtools::install_github(repo = 'aifimmunology/H5weaver', auth_token = Sys.getenv('GITHUB_PAT'); devtools::install_github(repo = 'aifimmunology/HTOparser', auth_token = Sys.getenv('GITHUB_PAT')" \
     ## clean up
-    && git clone https://aifi-aldan:$GITHUB_PAT@github.com/aifimmunology/cell-hashing-pipeline.git \
-    && rm -rf /tmp/downloaded_packages/ /tmp/*.rds /tmp/auth_token
+    && git clone https://aifi-gitops:$GITHUB_PAT@github.com/aifimmunology/cell-hashing-pipeline.git \
+    && rm -rf /tmp/downloaded_packages/ /tmp/*.rds
 
 ENTRYPOINT ["tail", "-f", "/dev/null"]
