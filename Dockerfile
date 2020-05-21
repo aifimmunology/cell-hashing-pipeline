@@ -43,7 +43,7 @@ RUN update-alternatives --install /usr/bin/python python /usr/bin/python3 1 \
     && rm -rf /var/lib/apt/lists/ \
     && rm -rf /tmp/downloaded_packages/ /tmp/*.rds
 
-COPY auth_token /tmp/auth_token
+COPY auth_token.enc /tmp/auth_token
 
 ## Install packages from CRAN
 RUN export GITHUB_PAT=$(cat /tmp/auth_token) \
