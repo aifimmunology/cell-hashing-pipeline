@@ -59,4 +59,4 @@ steps:
   entrypoint: /bin/bash
   args: [ "-c", "docker push us.gcr.io/$PROJECT_ID/cellhashing:v${_HISE_VERSION}_${_ENV}3"]
   env: ['PROJECT_ROOT=github.com/aifimmunology/cell-hashing-pipeline']
-timeout: 1800s
+timeout: 3600s
