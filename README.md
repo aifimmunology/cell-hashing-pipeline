@@ -1,7 +1,7 @@
 # cell-hashing-pipeline
 #
 
-Scripts for processing cell hashing/Hash Tag Oligo (HTO) data
+Scripts for processing cell hashing/Hash Tag Oligo (HTO) data 
 
 <a id="contents"></a>
 
