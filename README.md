@@ -157,6 +157,7 @@ There are 7 parameters for this script:
 * `-k or --in_key`: A 4-column Sample Sheet (see above).
 * `-w or --in_well`: A well name to apply to the output files  
 * `-c or --in_min_cutoff`: (*Optional, exclude to auto-select*) A minimum count cutoff to use for hash binarization. 
+* `-e or --in_eel`: (*Optional, default is TRUE*) Whether or not to expect equal loading of hashes (TRUE/FALSE).  
 * `-d or --out_dir`: A directory path to use to output the HTO Processing results
 * `-o or --out_html`: A filename to use to output the HTML summary report file
 
