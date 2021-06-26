@@ -37,3 +37,5 @@ RUN export GITHUB_PAT=$(cat /tmp/auth_token) \
     ## clean up
     && git clone https://aifi-gitops:$GITHUB_PAT@github.com/aifimmunology/cell-hashing-pipeline.git \
     && rm -rf /tmp/downloaded_packages/ /tmp/*.rds /tmp/auth_token
+
+ENTRYPOINT ["tail", "-f", "/dev/null"]
