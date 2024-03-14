@@ -2,10 +2,8 @@ FROM us.gcr.io/dev-pipeline-internal/google-r-base:v2.0
 
 RUN apt-key adv --keyserver keyserver.ubuntu.com --recv-keys KEYS-HERE
 
-## Resolving R and lib dependencies
 RUN apt-get update \
     && apt-get install -y --no-install-recommends \
-    # build-essential \
     apt-utils \
     libbz2-dev \
     libc6-dev \
@@ -32,17 +30,22 @@ RUN apt-get update \
     libtiff5-dev \
     libjpeg-dev \
     git \
+    ## clean up
     && apt-get clean \
     && rm -rf /var/lib/apt/lists/ \
     && rm -rf /tmp/downloaded_packages/ /tmp/*.rds
 
 RUN export R_HOME=/usr/lib/R
+
 RUN R -e 'install.packages("devtools")'
 RUN R -e 'install.packages("optparse")'
 RUN R -e 'install.packages("jsonlite")'
 RUN R -e 'install.packages("rmarkdown")'
+RUN R -e 'install.packages("cowplot")'
 
-## Install packages from github
+RUN R -e 'install.packages("BiocManager");BiocManager::install()'
+RUN R -e 'BiocManager::install(c("rhdf5", "GenomicRanges"))'
+
 COPY auth_token /tmp/auth_token
 RUN export GITHUB_PAT=$(cat /tmp/auth_token) \
     && R -e 'devtools::install_github("aifimmunology/H5weaver", auth_token = Sys.getenv("GITHUB_PAT")); devtools::install_github("aifimmunology/HTOparser", auth_token = Sys.getenv("GITHUB_PAT"))' \
