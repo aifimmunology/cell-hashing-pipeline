@@ -7,7 +7,7 @@ Scripts for processing cell hashing/Hash Tag Oligo (HTO) data
 
 ## Contents
 
-#### [Dependencies](#dependencies)
+#### [Dependencies](#depends)
 
 #### [HTO Counting](#hto)
 
@@ -27,7 +27,12 @@ Scripts for processing cell hashing/Hash Tag Oligo (HTO) data
 - [Outputs](#merge_out)
 - [Tests](#merge_test)
 
-<a id="dependencies"></a>
+#### [Legal](#legal_info)
+- [License](#license)
+- [Level of Support](#support)
+- [Contribution](#contrib)
+
+<a id="depends"></a>
 
 ## Dependencies
 
@@ -396,4 +401,26 @@ Rscript --vanilla \
   -o /shared/lucasg/pipeline_cellhashing_tests/output/merge_h5/test_summary_report.html
 ```
 
-#
+
+<a id="legal_info"></a>
+
+# Legal Information
+
+<a id="license"></a>
+
+## License
+
+The license for this package is available on Github in the file LICENSE.txt in this repository.
+
+<a id="support"></a>
+
+## Level of Support
+
+We are not currently supporting this code, but simply releasing it to the community AS IS but are not able to provide any guarantees of support. The community is welcome to submit issues, but you should not expect an active response.
+
+<a id="contrib"></a>
+
+## Contribution Agreement
+
+If you contribute code to this repository through pull requests or other mechanisms, you are subject to the Allen Institute Contribution Agreement, which is available in the file CONTRIBUTING.md in this repository.
+
