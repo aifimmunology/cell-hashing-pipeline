@@ -1,6 +1,6 @@
 FROM us.gcr.io/dev-pipeline-internal/google-r-base:v2.0
 
-RUN apt-key adv --keyserver keyserver.ubuntu.com --recv-keys KEYS-HERE
+#RUN apt-key adv --keyserver keyserver.ubuntu.com --recv-keys KEYS-HERE
 
 RUN apt-get update \
     && apt-get install -y --no-install-recommends \
