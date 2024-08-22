@@ -50,15 +50,10 @@ install.packages("rmarkdown")
 install.packages("optparse")
 ```
 
-`HTOparser` is one of our own packages found in the aifimmunology Github repositories. Because it is a private repository, you may need to provided a [Github Personal Access Token](https://github.com/settings/tokens) for installation:
-```
-Sys.setenv(GITHUB_PAT = "[your_PAT_here]")
-devtools::install_github("aifimmunology/HTOparser")
-```
-
-`H5weaver` is also found in the aifimmunology Github repositories. Install with:
+`H5weaver` and `HTOparser` are found in the aifimmunology Github repositories. Install with:
 ```
 devtools::install_github("aifimmunology/H5weaver")
+devtools::install_github("aifimmunology/HTOparser")
 ```
 
 [Return to Contents](#contents)
