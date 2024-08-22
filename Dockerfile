@@ -45,9 +45,6 @@ RUN R -e 'install.packages("cowplot")'
 
 RUN R -e 'install.packages("BiocManager");BiocManager::install()'
 RUN R -e 'BiocManager::install(c("rhdf5", "GenomicRanges"))'
-
-COPY auth_token /tmp/auth_token
-RUN export GITHUB_PAT=$(cat /tmp/auth_token) \
-    && R -e 'devtools::install_github("aifimmunology/H5weaver", auth_token = Sys.getenv("GITHUB_PAT")); devtools::install_github("aifimmunology/HTOparser", auth_token = Sys.getenv("GITHUB_PAT"))' \
-    && git clone -b master https://aifi-gitops:$GITHUB_PAT@github.com/aifimmunology/cell-hashing-pipeline.git \
-    && rm -rf /tmp/downloaded_packages/ /tmp/*.rds /tmp/auth_token
+RUN R -e 'devtools::install_github("aifimmunology/H5weaver"; devtools::install_github("aifimmunology/HTOparser"' \
+    && git clone -b master https://github.com/aifimmunology/cell-hashing-pipeline.git \
+    && rm -rf /tmp/downloaded_packages/ /tmp/*.rds
