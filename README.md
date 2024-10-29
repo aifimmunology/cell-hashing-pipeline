@@ -40,6 +40,10 @@ This repository requires that `pandoc` and `libhdf5-devel` libraries are install
 ```
 sudo apt-get install pandoc libhdf5-devel
 ```
+Depending on the linux distribution you're using, you may need to use `libhdf5-dev` instead:
+```
+sudo apt-get install pandoc libhdf5-dev
+```
 
 It also depends on the `H5weaver`, `HTOparser`,`jsonlite`, `rmarkdown`, and `optparse` libraries.
 
